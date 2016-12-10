@@ -5,10 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import java.io.IOException;
 import java.util.List;
 
-import nyc.c4q.maxrosado.midtermpracticaltest.POJOs.Data;
+import nyc.c4q.maxrosado.midtermpracticaltest.POJOs.HeadPOJO;
 import nyc.c4q.maxrosado.midtermpracticaltest.POJOs.MainPOJO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,37 +26,18 @@ public class MainActivity extends AppCompatActivity {
 
 
         ApiService service = RetrofitBuilder.makeService();
-        Call<Data> callApi = service.pojoGetter();
-        callApi.enqueue(new Callback<Data>() {
+        Call<HeadPOJO> callApi = service.pojoGetter();
+        callApi.enqueue(new Callback<HeadPOJO>() {
             @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
-
-                try {
-                    if(response.isSuccessful()) {
-                        Data data = response.body();
-                        List<MainPOJO> records = data.getRecords();
-                        if (records == null) {
-                            Log.d(TAG, "Unsuccessful");
-                        } else {
-                            Log.d(TAG, "Success: " + records);
-                            textView1.setText(records.get(2).getUsername());
-                        }
-                    } else {
-                        Log.d(TAG, "Error" + response.errorBody().string());
-                    }
-                } catch(IOException e) {
-                    Log.e(TAG, e.getMessage());
-                }
-
-//                Data data = response.body();
-//                List<MainPOJO> records = data.getRecords();
-//                textView1.setText(records.get(1).getUsername());
-//                Log.d(TAG, "Username Called");
+            public void onResponse(Call<HeadPOJO> call, Response<HeadPOJO> response) {
+                HeadPOJO headPOJO = response.body();
+                List<MainPOJO> pojos = headPOJO.getData().getRecords();
+                textView1.setText(pojos.get(0).getUsername());
             }
 
             @Override
-            public void onFailure(Call<Data> call, Throwable t) {
-
+            public void onFailure(Call<HeadPOJO> call, Throwable t) {
+                Log.e(TAG, "failed " + t);
             }
 
         });

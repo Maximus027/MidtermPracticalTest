@@ -1,6 +1,6 @@
 package nyc.c4q.maxrosado.midtermpracticaltest;
 
-import nyc.c4q.maxrosado.midtermpracticaltest.POJOs.Data;
+import nyc.c4q.maxrosado.midtermpracticaltest.POJOs.HeadPOJO;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
@@ -10,5 +10,5 @@ import retrofit2.http.GET;
 
 public interface ApiService {
     @GET("api/timelines/users/918753190470619136")
-    Call<Data> pojoGetter();
+    Call<HeadPOJO> pojoGetter();
 }
